@@ -7,15 +7,21 @@
     <title>第一部 · 幻影之血 | JOJO</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
+<!-- body 挂两个 class：
+     part-page 控制剧情页通用布局，
+     page-1 注入第一部专属配色变量 -->
 
 <body class="part-page page-1">
+    <!-- 整页内容容器：毛玻璃卡片 -->
     <div class="part-container">
+        <!-- 返回首页按钮 -->
         <a href="../index.html" class="back-btn">← 返回首页</a>
-
+        <!-- 标题区：部编号、中文名、英文名、角色信息 -->
         <div class="part-header">
             <div class="part-label">PART 1 · 1880–1889</div>
             <h1>幻影之血</h1>
             <div class="en-title">Phantom Blood</div>
+            <!-- 信息标签栏：横向排列的胶囊标签 -->
             <div class="part-meta">
                 <div class="meta-item"><strong>主角：</strong>乔纳森·乔斯达</div>
                 <div class="meta-item"><strong>舞台：</strong>19世纪英国</div>
@@ -24,10 +30,12 @@
             </div>
         </div>
 
+        <!-- 经典台词引用块 -->
         <div class="quote">
             “我不做人啦,JOJO!” —— 迪奥·布兰度
         </div>
 
+        <!-- 故事正文：每个 section 包含小标题和段落 -->
         <section class="story-section">
             <h2>◆ 故事起源</h2>
             <p>19世纪末的英国,出身贵族的少年乔纳森·乔斯达(JoJo)善良正直,从小在庄园中无忧无虑地长大。然而,父亲乔治·乔斯达出于救命之恩收养了狡诈阴险的少年迪奥·布兰度,自此JoJo平静的生活被彻底打破。</p>
@@ -47,6 +55,8 @@
             <p>然而迪奥并未真正死去——他的头颅被保存在棺材中，沉入大西洋深处，百年后将再次苏醒，掀起新的血雨腥风，也开启了跨越百年的**乔斯达血脉的奇妙冒险**。</p>
         </section>
 
+        <!-- 翻页导航：左指上一部，右指下一部 -->
+        <!-- 第一部没有上一部，加 disabled 禁用 -->
         <div class="part-nav">
             <a href="../index.html" class="nav-link prev disabled">
                 <span class="label">← 上一部</span>
