@@ -1,0 +1,614 @@
+/* ===== 全局样式 ===== */
+/* ========================================
+   全局重置
+   清除所有元素的默认间距，
+   让盒模型统一把边框和内边距算进宽高里
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   页面基础样式
+   设定全站字体、黑色背景、浅白文字，
+   最小高度撑满屏幕，禁止横向滚动
+   ======================================== */
+body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ===== 首页顶部标题 ===== */
+/* ========================================
+   首页顶部角色区
+   居中排版，背景用椭圆渐变从暗紫散到纯黑，
+   模拟舞台聚光灯效果
+   ======================================== */
+.hero {
+    padding: 60px 20px 30px;
+    text-align: center;
+    background: radial-gradient(ellipse at center, #2a1a3a 0%, #0a0a0a 70%);
+    position: relative;
+}
+
+/* 角色区大标题：五色渐变裁进文字里， 背景不断右移形成流光跑马效果 */
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    background: linear-gradient(90deg, #ffd700, #ff6b35, #e63946, #a8dadc, #ffd700);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+/* 日文副标题：灰色小字，安静衬托 */
+.hero .subtitle {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #bbb;
+    letter-spacing: 4px;
+}
+
+/* 经典台词标语：金色斜体，微微压低透明度 */
+.hero .tagline {
+    margin-top: 10px;
+    font-style: italic;
+    color: #ffd700;
+    opacity: 0.8;
+}
+
+/* 流光动画：让渐变背景位置从起点跑到终点 */
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* ===== 九柱JOJO画廊 ===== */
+/* ========================================
+   九宫格画廊
+   自适应网格布局，列宽弹性伸缩，
+   屏幕宽就多列，窄就少列
+   ======================================== */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   JOJO卡片通用样式
+   竖版比例，圆角裁切，悬停时上弹放大，
+   阴影膨胀并发出专属颜色的光晕
+   ======================================== */
+.jojo-card {
+    position: relative;
+    aspect-ratio: 3 / 5;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transform: translateY(0) scale(1);
+    transition: transform 0.4s cubic-bezier(.2, .9, .3, 1.3), box-shadow 0.4s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 卡片悬停：上移、放大、光晕扩散、
+   边框变为专属强调色，提升层级避免被遮挡 */
+.jojo-card:hover {
+    transform: translateY(-10px) scale(1.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px var(--glow, #ffd700);
+    z-index: 10;
+    border-color: var(--glow, #ffd700);
+}
+
+/* ========================================
+   卡片内部：立绘画布
+   绝对定位铺满卡片，作为图片和装饰的容器
+   ======================================== */
+.jojo-card .portrait {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 立绘图片 —— 填充整张卡片 */
+/* 立绘图片：铺满卡片但保持比例不变形，
+   悬停时微微放大增加动感 */
+.jojo-card .portrait img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    padding: 0;
+    z-index: 1;
+    transition: transform 0.5s ease;
+}
+
+.jojo-card:hover .portrait img {
+    transform: scale(1.05);
+}
+
+
+/* 立绘：用 CSS 绘制 —— 背景 + 大字志 + 替罪羊光晕 */
+/* 立绘底层装饰：径向高光加斜线纹理，
+   缓慢旋转营造背景在呼吸的视觉效果 */
+.jojo-card .portrait::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 40%),
+        repeating-linear-gradient(45deg, transparent 0 20px, rgba(0, 0, 0, 0.08) 20px 22px);
+    animation: rotateBg 30s linear infinite;
+}
+
+/* 背景纹理旋转动画 */
+@keyframes rotateBg {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ========================================
+   卡片底部信息栏
+   从透明渐变到浓黑盖住图片下沿，
+   让文字浮在暗雾上清晰可读
+   ======================================== */
+.jojo-card .info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 10px 8px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+    z-index: 3;
+}
+
+/* 部号：专属强调色小字 */
+.jojo-card .part-num {
+    font-size: 0.8rem;
+    color: var(--glow, #ffd700);
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* 角色中文名：白色粗体 */
+.jojo-card .name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 4px;
+    letter-spacing: 1px;
+}
+
+/* 角色英文名：灰色缩小 */
+.jojo-card .en-name {
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-top: 2px;
+    letter-spacing: 1px;
+}
+
+/* 每个JOJO的专属配色 */
+/* ========================================
+   各部专属配色变量
+   每部定义底色渐变和发光颜色
+   ======================================== */
+.jojo-1 {
+    --bg: linear-gradient(160deg, #1a2f4a 0%, #0a1826 100%);
+    --glow: #4a9eff;
+}
+
+.jojo-2 {
+    --bg: linear-gradient(160deg, #8b4513 0%, #3a1f0a 100%);
+    --glow: #ff9a3c;
+}
+
+.jojo-3 {
+    --bg: linear-gradient(160deg, #1a1a1a 0%, #000 100%);
+    --glow: #9b59b6;
+}
+
+.jojo-4 {
+    --bg: linear-gradient(160deg, #4a1a4a 0%, #1a0a2a 100%);
+    --glow: #ff4da6;
+}
+
+.jojo-5 {
+    --bg: linear-gradient(160deg, #c9a227 0%, #4a3800 100%);
+    --glow: #ffd700;
+}
+
+.jojo-6 {
+    --bg: linear-gradient(160deg, #006994 0%, #002137 100%);
+    --glow: #00d4ff;
+}
+
+.jojo-7 {
+    --bg: linear-gradient(160deg, #3a2010 0%, #1a0a04 100%);
+    --glow: #d4a574;
+}
+
+.jojo-8 {
+    --bg: linear-gradient(160deg, #2a4a2a 0%, #0a1a0a 100%);
+    --glow: #7cfc00;
+}
+
+.jojo-9 {
+    --bg: linear-gradient(160deg, #b0082a 0%, #3a0008 100%);
+    --glow: #ff3860;
+}
+
+/* ===== 页脚 ===== */
+/* ========================================
+   页脚
+   居中灰色小字，顶部细线隔开
+   ======================================== */
+.footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 0.9rem;
+    border-top: 1px solid #222;
+    margin-top: 40px;
+}
+
+/* ===== 剧情页 ===== */
+/* ========================================
+   剧情详情页：页面级样式
+   背景色由各部变量控制，撑满全屏
+   ======================================== */
+.part-page {
+    min-height: 100vh;
+    background: var(--part-bg, linear-gradient(160deg, #1a1a1a, #000));
+    padding: 40px 20px 80px;
+}
+
+/* 剧情页内容容器：毛玻璃卡片效果，
+   限定最大宽度居中，圆角阴影细边框 */
+.part-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 40px 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* 返回按钮：胶囊形状，悬停时往左微移暗示方向 */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 30px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(-4px);
+}
+
+/* ========================================
+   剧情页标题区
+   居中排列，底部用强调色画分割线
+   ======================================== */
+.part-header {
+    text-align: center;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--accent, #ffd700);
+}
+
+/* 部编号和年代：强调色大写小字 */
+.part-header .part-label {
+    font-size: 1rem;
+    color: var(--accent, #ffd700);
+    letter-spacing: 6px;
+    font-weight: bold;
+}
+
+/* 部名大标题：白色，带强调色光晕 */
+.part-header h1 {
+    font-size: 3rem;
+    margin: 15px 0 10px;
+    color: #fff;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px var(--accent, #ffd700);
+}
+
+/* 英文副标题：灰色斜体 */
+.part-header .en-title {
+    font-size: 1rem;
+    color: #aaa;
+    font-style: italic;
+    letter-spacing: 3px;
+}
+
+/* 角色信息标签栏：横向弹性排列，自动换行 */
+.part-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+/* 单个信息标签：半透明胶囊，标签名用强调色 */
+.meta-item {
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.meta-item strong {
+    color: var(--accent, #ffd700);
+    margin-right: 6px;
+}
+
+/* ========================================
+   故事段落区
+   每段有左侧色条标题和缩进正文
+   ======================================== */
+.story-section {
+    margin-top: 35px;
+}
+
+/* 段落小标题：左边插一根强调色竖条当视觉锚点 */
+.story-section h2 {
+    font-size: 1.6rem;
+    color: var(--accent, #ffd700);
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border-left: 5px solid var(--accent, #ffd700);
+}
+
+.story-section p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+    text-indent: 2em;
+}
+
+/* ========================================
+   经典台词引用块
+   左侧强调色竖条，淡底衬托，
+   左上角放一个巨型装饰引号
+   ======================================== */
+.quote {
+    margin: 30px 0;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--accent, #ffd700);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #ffd;
+    position: relative;
+}
+
+/* 装饰性大引号 */
+.quote::before {
+    content: "\201C";
+    position: absolute;
+    top: -10px;
+    left: -40px;
+    font-size: 4rem;
+    color: var(--accent, #ffd700);
+    opacity: 0.4;
+}
+
+/* 部间导航 */
+/* ========================================
+   部间翻页导航
+   左右两栏对称，分别指向上一部和下一部
+   ======================================== */
+.part-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    gap: 20px;
+}
+
+/* 导航链接：半透明圆角小卡片，
+   悬停时上浮并泛起暖色光 */
+.nav-link {
+    flex: 1;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.nav-link:hover {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: var(--accent, #ffd700);
+    transform: translateY(-3px);
+}
+
+/* 上一部靠左，下一部靠右 */
+.nav-link.prev {
+    text-align: left;
+}
+
+.nav-link.next {
+    text-align: right;
+}
+
+/* 方向提示小字 */
+.nav-link .label {
+    font-size: 0.8rem;
+    color: #999;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* 部名粗体 */
+.nav-link .title {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.nav-link.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* 各部剧情页配色 */
+/* ========================================
+   各部剧情页专属配色
+   分别定义页面背景渐变和强调色
+   ======================================== */
+.page-1 {
+    --part-bg: linear-gradient(160deg, #1a2f4a 0%, #050a15 100%);
+    --accent: #4a9eff;
+}
+
+.page-2 {
+    --part-bg: linear-gradient(160deg, #8b4513 0%, #1a0f05 100%);
+    --accent: #ff9a3c;
+}
+
+.page-3 {
+    --part-bg: linear-gradient(160deg, #1a1a1a 0%, #000 100%);
+    --accent: #b072d6;
+}
+
+.page-4 {
+    --part-bg: linear-gradient(160deg, #4a1a4a 0%, #0a0510 100%);
+    --accent: #ff4da6;
+}
+
+.page-5 {
+    --part-bg: linear-gradient(160deg, #c9a227 0%, #2a1f00 100%);
+    --accent: #ffd700;
+}
+
+.page-6 {
+    --part-bg: linear-gradient(160deg, #006994 0%, #001020 100%);
+    --accent: #00d4ff;
+}
+
+.page-7 {
+    --part-bg: linear-gradient(160deg, #3a2010 0%, #0a0402 100%);
+    --accent: #d4a574;
+}
+
+.page-8 {
+    --part-bg: linear-gradient(160deg, #2a4a2a 0%, #050a05 100%);
+    --accent: #7cfc00;
+}
+
+.page-9 {
+    --part-bg: linear-gradient(160deg, #b0082a 0%, #1a0004 100%);
+    --accent: #ff3860;
+}
+
+/* 响应式 */
+/* ========================================
+   响应式适配：小屏幕
+   缩小字号，画廊改两列，容器收窄内边距
+   ======================================== */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+        letter-spacing: 4px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .part-container {
+        padding: 25px 20px;
+    }
+
+    .part-header h1 {
+        font-size: 2rem;
+    }
+}
+
+
+/* ===== 翻转卡片特效 (第七部双主角专属) ===== */
+.jojo-card.flip-card {
+    perspective: 1000px;
+    /* 取消外层裁剪，使3D翻转不被截断 */
+    overflow: visible;
+}
+
+/* 翻转内层容器：保持三维空间，
+   悬停时用弹性曲线翻转半圈 */
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.jojo-card.flip-card:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+/* 正面和背面：各自隐藏自己的背面，
+   圆角裁切，背景用各部变量 */
+.flip-front,
+.flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg);
+}
+
+/* 背面预先翻转好，等外层再翻一次就正过来了 */
+.flip-back {
+    transform: rotateY(180deg);
+}
+
+/* 修复翻转时底部圆角的显示层级 */
+.flip-card .portrait {
+    border-radius: 10px;
+}

@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JoJo的奇妙冒险 - 九部剧情总览</title>
+    <!-- 引用公共样式表 -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
+<!-- 首页 body 不挂额外 class，
+     走 CSS 里 body 的默认黑底白字 -->
 
 <body>
     <header class="hero">
@@ -89,14 +93,30 @@
         </a>
 
         <!-- 第七部 -->
-        <a href="parts/part7.html" class="jojo-card jojo-7">
-            <div class="portrait">
-                <img src="images/07.png" alt="乔尼·乔斯达">
-            </div>
-            <div class="info">
-                <div class="part-num">PART 7</div>
-                <div class="name">乔尼·乔斯达</div>
-                <div class="en-name">Johnny Joestar</div>
+        <a href="parts/part7.html" class="jojo-card jojo-7 flip-card">
+            <div class="flip-inner">
+                <!-- 正面：乔尼 -->
+                <div class="flip-front">
+                    <div class="portrait">
+                        <img src="images/07.png" alt="乔尼·乔斯达">
+                    </div>
+                    <div class="info">
+                        <div class="part-num">PART 7</div>
+                        <div class="name">乔尼·乔斯达</div>
+                        <div class="en-name">Johnny Joestar</div>
+                    </div>
+                </div>
+                <!-- 背面：杰洛 -->
+                <div class="flip-back">
+                    <div class="portrait">
+                        <img src="images/10.png" alt="杰洛·齐贝林">
+                    </div>
+                    <div class="info">
+                        <div class="part-num">PART 7</div>
+                        <div class="name">杰洛·齐贝林</div>
+                        <div class="en-name">Gyro Zeppeli</div>
+                    </div>
+                </div>
             </div>
         </a>
 
